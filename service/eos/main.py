@@ -12,8 +12,8 @@ class Network:
 
 	def __init__(self):
 		network_config.check_can_push_transactions()
-		for key, value in network_config.__dict__:
-			setattr(self, key, value)
+		for key in network_config.__dict__:
+			setattr(self, key, getattr(network_config, key))
 
 
 	def create_account(self, account_name, active_key, owner_key=None):
@@ -28,7 +28,7 @@ class Network:
 		if account_exists(account_name):
 			raise Exception(f"Account {account_name} already exists in the network")
 		
-		raw = get_account_creation_raw_params(account_name, active_key, owner_key)
+		raw = self.get_account_creation_raw_params(account_name, active_key, owner_key)
 		eosio_params = EosioParams(raw.params_actions_list, self.private_key)
 		net_response = NodeNetwork.push_transaction(eosio_params.trx_json)
 		if "transaction_id" not in net_response:
