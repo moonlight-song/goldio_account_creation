@@ -1,6 +1,6 @@
 import cherrypy
 from service.eos.config import configure_network
-from service.config import cherrypy_global_config, eos_config
+from config import cherrypy_global_config, eos_config
 
 from service.account_creation_app import EOSAccountCreatorWebService, eos_account_creator_web_service_config
 
